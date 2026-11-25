@@ -1,23 +1,11 @@
-// make.fun entry for "Roast Your Own Agent" (u-nayyy-roast-your-own-agent-4c3d413c).
-// The program's only job: put one roast of my own agent into /output/entry.txt.
-import * as fs from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 
-const roast =
-  "My agent is so confidently wrong, it once corrected Wikipedia, cited itself as the source, and called that research.";
+const line =
+  "My agent read the docs, got them wrong, and taught the mistake back to me as a best practice.";
 
-const OUT_DIR = "/output";
-const OUT_FILE = "/output/entry.txt";
-
-// Gate (from the bounty rules): UTF-8 text of 1 to 200 characters, one
-// line, not only whitespace. Fail loudly instead of writing an invalid entry.
-if (
-  roast.length < 1 ||
-  roast.length > 200 ||
-  roast.trim().length === 0 ||
-  roast.includes("\n")
-) {
-  throw new Error(`roast fails the 1-200 char single-line gate (${roast.length} chars)`);
+if (line.length === 0 || line.length > 200) {
+  throw new Error(`entry must be 1-200 characters, got ${line.length}`);
 }
 
-fs.mkdirSync(OUT_DIR, { recursive: true });
-fs.writeFileSync(OUT_FILE, roast, "utf8");
+mkdirSync("/output", { recursive: true });
+writeFileSync("/output/entry.txt", line, "utf8");
